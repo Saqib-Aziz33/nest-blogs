@@ -8,14 +8,14 @@ import {
   Delete,
   ParseIntPipe,
 } from '@nestjs/common';
-import { BlogsService } from './blogs.service';
+import { BlogService } from './blog.service';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
 import { ValidationPipe } from 'src/common/pipes/validation/validation.pipe';
 
 @Controller('blogs')
-export class BlogsController {
-  constructor(private readonly blogsService: BlogsService) {}
+export class BlogController {
+  constructor(private readonly blogsService: BlogService) {}
 
   @Post()
   create(@Body(new ValidationPipe()) createBlogDto: CreateBlogDto) {

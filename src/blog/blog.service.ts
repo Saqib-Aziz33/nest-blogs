@@ -6,7 +6,7 @@ import { UpdateBlogDto } from './dto/update-blog.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
-export class BlogsService {
+export class BlogService {
   constructor(
     @InjectRepository(Blog)
     private blogs: Repository<Blog>,
