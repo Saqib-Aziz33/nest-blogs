@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Blog } from './entities/blog.entity';
 import { CreateBlogDto } from './dto/create-blog.dto';
@@ -21,15 +21,24 @@ export class BlogsService {
     return this.blogs.find();
   }
 
-  findOne(id: number) {
-    return this.blogs.findOne({ where: { id } });
+  async findOne(id: number) {
+    const blog = await this.blogs.findOneBy({ id });
+    if (!blog) {
+      throw new NotFoundException(`Blog with ID ${id} not found`);
+    }
+    return blog;
   }
 
-  update(id: number, updateBlogDto: UpdateBlogDto) {
-    return this.blogs.update(id, updateBlogDto);
+  async update(id: number, updateBlogDto: UpdateBlogDto) {
+    const resp = await this.blogs.update(id, updateBlogDto);
+    return { update_count: resp.affected };
   }
 
-  remove(id: number) {
-    return this.blogs.delete(id);
+  async remove(id: number) {
+    const resp = await this.blogs.delete(id);
+    if (resp.affected === 0) {
+      throw new NotFoundException(`Blog with ID ${id} not found`);
+    }
+    return { delete_count: resp.affected };
   }
 }
