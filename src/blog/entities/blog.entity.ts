@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+// import { User } from '../../user/entities/user.entity';
 
 @Entity()
 export class Blog {
@@ -13,4 +14,7 @@ export class Blog {
 
   @Column({ default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
+
+  // @ManyToOne(() => User, (user) => user.blogs)
+  // author: User;
 }
