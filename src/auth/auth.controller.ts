@@ -6,11 +6,13 @@ import {
   HttpStatus,
   Post,
   Request,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign-in.dto';
 import { SignUpDto } from './dto/sign-up.dto';
 import { ValidationPipe } from 'src/common/pipes/validation/validation.pipe';
+import { AuthGuard } from './jwt.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -25,5 +27,11 @@ export class AuthController {
   @Post('sign-up')
   signUp(@Body(new ValidationPipe()) signUpDto: SignUpDto) {
     return this.authService.signUp(signUpDto);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('me')
+  getMe(@Request() req: any) {
+    return req['user'];
   }
 }
