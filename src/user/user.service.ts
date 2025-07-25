@@ -41,4 +41,8 @@ export class UserService {
     }
     return { delete_count: resp.affected };
   }
+
+  async findByEmail(email: string) {
+    return this.users.findOneBy({ email });
+  }
 }

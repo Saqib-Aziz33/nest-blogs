@@ -1,20 +1,20 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Blog } from './blog/entities/blog.entity';
+import { AuthModule } from './auth/auth.module';
 import { BlogModule } from './blog/blog.module';
+import { DatabaseModule } from './database/database.module';
 import { UserModule } from './user/user.module';
-import { User } from './user/entities/user.entity';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'sqlite.db',
-      entities: [Blog, User],
-      synchronize: true,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '../.env',
     }),
+    DatabaseModule,
     BlogModule,
     UserModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
