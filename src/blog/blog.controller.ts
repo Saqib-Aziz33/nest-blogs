@@ -7,12 +7,15 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
 import { ValidationPipe } from 'src/common/pipes/validation/validation.pipe';
+import { AuthGuard } from 'src/auth/jwt.guard';
 
+@UseGuards(AuthGuard)
 @Controller('blogs')
 export class BlogController {
   constructor(private readonly blogsService: BlogService) {}
